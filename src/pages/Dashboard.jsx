@@ -151,9 +151,9 @@ const MotionBox = motion(Box);
 const Dashboard = () => {
   const [newTradeAlert, setNewTradeAlert] = useState(false);
   const [traders, setTraders] = useState(sampleTraders);
-  const bgColor = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const statBgColor = useColorModeValue('gray.50', 'gray.700');
+  const bgColor = useColorModeValue('gray.800', 'gray.800');
+  const borderColor = useColorModeValue('gray.700', 'gray.700');
+  const statBgColor = useColorModeValue('gray.700', 'gray.700');
   
   const handleFollowToggle = (traderId, status) => {
     // Update the traders array with new status
@@ -179,7 +179,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Box minH="100vh" display="flex" flexDirection="column" bg="gray.50">
+    <Box minH="100vh" display="flex" flexDirection="column" bg="gray.950">
       <Header />
       
       <Box flex="1" py={8}>
@@ -198,9 +198,9 @@ const Dashboard = () => {
               borderColor={borderColor}
             >
               <Stat>
-                <StatLabel>Total Portfolio Value</StatLabel>
-                <StatNumber>${portfolioData.totalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</StatNumber>
-                <StatHelpText>
+                <StatLabel color="gray.400">Total Portfolio Value</StatLabel>
+                <StatNumber color="white">${portfolioData.totalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</StatNumber>
+                <StatHelpText color="green.400">
                   <StatArrow type="increase" />
                   {portfolioData.changePercent}% since start
                 </StatHelpText>
@@ -219,11 +219,11 @@ const Dashboard = () => {
               borderColor={borderColor}
             >
               <Stat>
-                <StatLabel>Cash Available</StatLabel>
-                <StatNumber>
+                <StatLabel color="gray.400">Cash Available</StatLabel>
+                <StatNumber color="white">
                   ${portfolioData.allocations.find(a => a.symbol === 'CASH').value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </StatNumber>
-                <StatHelpText>
+                <StatHelpText color="gray.400">
                   {portfolioData.allocations.find(a => a.symbol === 'CASH').percent.toFixed(1)}% of portfolio
                 </StatHelpText>
               </Stat>
@@ -241,11 +241,11 @@ const Dashboard = () => {
               borderColor={borderColor}
             >
               <Stat>
-                <StatLabel>Traders Following</StatLabel>
-                <StatNumber>1</StatNumber>
+                <StatLabel color="gray.400">Traders Following</StatLabel>
+                <StatNumber color="white">1</StatNumber>
                 <StatHelpText>
                   <RouterLink to="#traders">
-                    <Text color="primary.500">View traders</Text>
+                    <Text color="accent.400">View traders</Text>
                   </RouterLink>
                 </StatHelpText>
               </Stat>
@@ -263,11 +263,11 @@ const Dashboard = () => {
               borderColor={borderColor}
             >
               <Stat>
-                <StatLabel>Total Trades</StatLabel>
-                <StatNumber>4</StatNumber>
+                <StatLabel color="gray.400">Total Trades</StatLabel>
+                <StatNumber color="white">4</StatNumber>
                 <StatHelpText>
                   <RouterLink to="/portfolio">
-                    <Text color="primary.500">View all trades</Text>
+                    <Text color="accent.400">View all trades</Text>
                   </RouterLink>
                 </StatHelpText>
               </Stat>
@@ -277,7 +277,7 @@ const Dashboard = () => {
           {/* Main Dashboard Content */}
           <Grid templateColumns={{ base: '1fr', xl: '7fr 3fr' }} gap={8}>
             <GridItem>
-              <Tabs variant="enclosed" colorScheme="primary" bg={bgColor} borderRadius="lg" boxShadow="sm" borderWidth="1px" borderColor={borderColor}>
+              <Tabs variant="enclosed" colorScheme="accent" bg={bgColor} borderRadius="xl" boxShadow="0 8px 32px 0 rgba(0, 0, 0, 0.37)" borderWidth="1px" borderColor={borderColor}>
                 <TabList px={6} pt={4}>
                   <Tab>Copy Feed</Tab>
                   <Tab>My Traders</Tab>
@@ -288,17 +288,17 @@ const Dashboard = () => {
                   {/* Trade Feed Tab */}
                   <TabPanel p={6}>
                     <Flex justify="space-between" align="center" mb={6}>
-                      <Heading size="md">Recent Trades</Heading>
+                      <Heading size="md" color="white">Recent Trades</Heading>
                       <HStack>
-                        <Select size="sm" w="180px" placeholder="All Traders">
-                          <option value="alex">Alex Morgan</option>
-                          <option value="sarah">Sarah Chen</option>
-                          <option value="david">David Wilson</option>
+                        <Select size="sm" w="180px" placeholder="All Traders" bg="gray.700" borderColor="gray.600" color="white" _hover={{ borderColor: "gray.500" }}>
+                          <option value="alex" style={{backgroundColor: "#1e293b"}}>Alex Morgan</option>
+                          <option value="sarah" style={{backgroundColor: "#1e293b"}}>Sarah Chen</option>
+                          <option value="david" style={{backgroundColor: "#1e293b"}}>David Wilson</option>
                         </Select>
-                        <Select size="sm" w="120px" placeholder="All Assets">
-                          <option value="stocks">Stocks</option>
-                          <option value="crypto">Crypto</option>
-                          <option value="forex">Forex</option>
+                        <Select size="sm" w="120px" placeholder="All Assets" bg="gray.700" borderColor="gray.600" color="white" _hover={{ borderColor: "gray.500" }}>
+                          <option value="stocks" style={{backgroundColor: "#1e293b"}}>Stocks</option>
+                          <option value="crypto" style={{backgroundColor: "#1e293b"}}>Crypto</option>
+                          <option value="forex" style={{backgroundColor: "#1e293b"}}>Forex</option>
                         </Select>
                       </HStack>
                     </Flex>
@@ -311,11 +311,11 @@ const Dashboard = () => {
                         transition={{ duration: 0.3 }}
                         mb={4}
                         p={4}
-                        bg="primary.50"
-                        color="primary.800"
+                        bg="rgba(21, 128, 61, 0.1)"
+                        color="white"
                         borderRadius="md"
                         borderLeft="4px solid"
-                        borderColor="primary.500"
+                        borderColor="green.500"
                       >
                         <Flex justify="space-between" align="center">
                           <HStack>
@@ -324,7 +324,13 @@ const Dashboard = () => {
                               Alex Morgan just bought AMZN at $183.50
                             </Text>
                           </HStack>
-                          <Button size="sm" colorScheme="primary">
+                          <Button 
+                            size="sm" 
+                            bg="accent.500"
+                            color="white"
+                            _hover={{ bg: 'accent.600' }}
+                            style={{ transition: 'all 0.2s ease' }}
+                          >
                             Copy Now
                           </Button>
                         </Flex>
@@ -339,7 +345,14 @@ const Dashboard = () => {
                     </VStack>
                     
                     <Flex justify="center" mt={8}>
-                      <Button variant="outline" size="md">
+                      <Button 
+                        variant="outline" 
+                        size="md"
+                        borderColor="gray.600"
+                        color="gray.300"
+                        _hover={{ bg: 'rgba(255,255,255,0.05)', borderColor: 'gray.500' }}
+                        style={{ transition: 'all 0.2s ease' }}
+                      >
                         Load More Trades
                       </Button>
                     </Flex>
@@ -348,8 +361,15 @@ const Dashboard = () => {
                   {/* My Traders Tab */}
                   <TabPanel p={6}>
                     <Flex justify="space-between" align="center" mb={6}>
-                      <Heading size="md">Traders You Follow</Heading>
-                      <Button size="sm" colorScheme="primary" variant="outline">
+                      <Heading size="md" color="white">Traders You Follow</Heading>
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        borderColor="accent.500"
+                        color="accent.400"
+                        _hover={{ bg: 'rgba(25, 118, 210, 0.1)', borderColor: 'accent.400' }}
+                        style={{ transition: 'all 0.2s ease' }}
+                      >
                         Find More Traders
                       </Button>
                     </Flex>
@@ -361,7 +381,7 @@ const Dashboard = () => {
                     </SimpleGrid>
                     
                     <Box mt={8}>
-                      <Heading size="md" mb={4}>Recommended For You</Heading>
+                      <Heading size="md" mb={4} color="white">Recommended For You</Heading>
                       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
                         {traders.filter(trader => trader.status !== 'Following').slice(0, 2).map(trader => (
                           <TraderCard key={trader.id} trader={trader} onFollowToggle={handleFollowToggle} />
@@ -373,12 +393,20 @@ const Dashboard = () => {
                   {/* Discover Tab */}
                   <TabPanel p={6}>
                     <Flex justify="space-between" align="center" mb={6}>
-                      <Heading size="md">Top Performing Traders</Heading>
+                      <Heading size="md" color="white">Top Performing Traders</Heading>
                       <HStack>
-                        <Select size="sm" w="180px" defaultValue="performance">
-                          <option value="performance">Highest Performance</option>
-                          <option value="winrate">Best Win Rate</option>
-                          <option value="followers">Most Followers</option>
+                        <Select 
+                          size="sm" 
+                          w="180px" 
+                          defaultValue="performance"
+                          bg="gray.700" 
+                          borderColor="gray.600" 
+                          color="white" 
+                          _hover={{ borderColor: "gray.500" }}
+                        >
+                          <option value="performance" style={{backgroundColor: "#1e293b"}}>Highest Performance</option>
+                          <option value="winrate" style={{backgroundColor: "#1e293b"}}>Best Win Rate</option>
+                          <option value="followers" style={{backgroundColor: "#1e293b"}}>Most Followers</option>
                         </Select>
                       </HStack>
                     </Flex>
@@ -390,7 +418,14 @@ const Dashboard = () => {
                     </SimpleGrid>
                     
                     <Flex justify="center" mt={8}>
-                      <Button variant="outline" size="md">
+                      <Button 
+                        variant="outline" 
+                        size="md"
+                        borderColor="gray.600"
+                        color="gray.300"
+                        _hover={{ bg: 'rgba(255,255,255,0.05)', borderColor: 'gray.500' }}
+                        style={{ transition: 'all 0.2s ease' }}
+                      >
                         Show More Traders
                       </Button>
                     </Flex>
@@ -414,22 +449,22 @@ const Dashboard = () => {
                   borderWidth="1px"
                   borderColor={borderColor}
                 >
-                  <Heading size="md" mb={4}>
+                  <Heading size="md" mb={4} color="white">
                     Portfolio Summary
                   </Heading>
                   
                   <Stat mb={4}>
-                    <StatLabel>Total P&L</StatLabel>
-                    <StatNumber color="green.500">
+                    <StatLabel color="gray.400">Total P&L</StatLabel>
+                    <StatNumber color="green.400">
                       +${portfolioData.change.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </StatNumber>
-                    <StatHelpText>
-                      <StatArrow type="increase" />
+                    <StatHelpText color="gray.400">
+                      <StatArrow type="increase" color="green.400" />
                       {portfolioData.changePercent}% since start
                     </StatHelpText>
                   </Stat>
                   
-                  <Heading size="sm" mb={2}>
+                  <Heading size="sm" mb={2} color="white">
                     Allocations
                   </Heading>
                   
@@ -442,22 +477,41 @@ const Dashboard = () => {
                       borderColor={borderColor}
                     >
                       <HStack>
-                        <Badge 
-                          colorScheme={allocation.symbol === 'CASH' ? 'gray' : 'primary'}
-                          px={2}
+                        <Box
+                          display="inline-flex"
+                          alignItems="center"
+                          justifyContent="center"
+                          borderRadius="md"
+                          py={1}
+                          px={2.5}
+                          fontSize="sm"
+                          fontWeight="bold"
+                          bg={allocation.symbol === 'CASH' ? 'gray.700' : 'rgba(25, 118, 210, 0.15)'}
+                          color={allocation.symbol === 'CASH' ? 'gray.300' : 'accent.400'}
+                          borderWidth="1px"
+                          borderColor={allocation.symbol === 'CASH' ? 'gray.600' : 'accent.700'}
                         >
                           {allocation.symbol}
-                        </Badge>
-                        <Text>
+                        </Box>
+                        <Text color="white">
                           ${allocation.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </Text>
                       </HStack>
-                      <Text>{allocation.percent.toFixed(1)}%</Text>
+                      <Text color="gray.400">{allocation.percent.toFixed(1)}%</Text>
                     </Flex>
                   ))}
                   
                   <RouterLink to="/portfolio">
-                    <Button variant="outline" w="full" mt={4} size="sm">
+                    <Button 
+                      variant="outline" 
+                      w="full" 
+                      mt={4} 
+                      size="sm"
+                      borderColor="gray.600"
+                      color="gray.300"
+                      _hover={{ bg: 'rgba(255,255,255,0.05)', borderColor: 'gray.500' }}
+                      style={{ transition: 'all 0.2s ease' }}
+                    >
                       View Full Portfolio
                     </Button>
                   </RouterLink>
@@ -475,21 +529,49 @@ const Dashboard = () => {
                   borderWidth="1px"
                   borderColor={borderColor}
                 >
-                  <Heading size="md" mb={4}>
+                  <Heading size="md" mb={4} color="white">
                     Quick Actions
                   </Heading>
                   
                   <SimpleGrid columns={1} spacing={3}>
-                    <Button size="md" colorScheme="primary">
+                    <Button 
+                      size="md" 
+                      bg="accent.500"
+                      color="white"
+                      _hover={{ bg: 'accent.600', transform: 'translateY(-2px)' }}
+                      boxShadow="0 4px 14px 0 rgba(25, 118, 210, 0.25)"
+                      style={{ transition: 'all 0.2s ease' }}
+                    >
                       Discover Top Traders
                     </Button>
-                    <Button size="md" variant="outline">
+                    <Button 
+                      size="md" 
+                      variant="outline"
+                      borderColor="gray.600"
+                      color="gray.300"
+                      _hover={{ bg: 'rgba(255,255,255,0.05)', borderColor: 'gray.500' }}
+                      style={{ transition: 'all 0.2s ease' }}
+                    >
                       Connect IBKR Account
                     </Button>
-                    <Button size="md" variant="outline">
+                    <Button 
+                      size="md" 
+                      variant="outline"
+                      borderColor="gray.600"
+                      color="gray.300"
+                      _hover={{ bg: 'rgba(255,255,255,0.05)', borderColor: 'gray.500' }}
+                      style={{ transition: 'all 0.2s ease' }}
+                    >
                       Adjust Copy Settings
                     </Button>
-                    <Button size="md" variant="outline">
+                    <Button 
+                      size="md" 
+                      variant="outline"
+                      borderColor="gray.600"
+                      color="gray.300"
+                      _hover={{ bg: 'rgba(255,255,255,0.05)', borderColor: 'gray.500' }}
+                      style={{ transition: 'all 0.2s ease' }}
+                    >
                       Invite Friends
                     </Button>
                   </SimpleGrid>

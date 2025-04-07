@@ -53,16 +53,51 @@ const Landing = () => {
 
       {/* Hero Section */}
       <Box 
-        bg="primary.500" 
+        bg="gray.900" 
         color="white" 
         py={{ base: 16, md: 24 }}
-        backgroundImage="linear-gradient(135deg, #0080ff 0%, #004d99 100%)"
         position="relative"
         overflow="hidden"
+        borderBottom="1px solid"
+        borderColor="gray.800"
       >
-        {/* Abstract shapes for background */}
-        <Box position="absolute" top="-10%" right="-5%" opacity={0.1} w="500px" h="500px" borderRadius="full" bg="white" />
-        <Box position="absolute" bottom="-20%" left="-10%" opacity={0.1} w="600px" h="600px" borderRadius="full" bg="white" />
+        {/* Animated gradient background */}
+        <Box 
+          position="absolute" 
+          top="0" 
+          left="0" 
+          right="0" 
+          bottom="0" 
+          bgGradient="linear(to-br, gray.900, gray.900, accent.900)"
+          opacity="0.4"
+          zIndex="0"
+        />
+        
+        {/* Subtle grid pattern */}
+        <Box 
+          position="absolute"
+          top="0"
+          left="0"
+          right="0"
+          bottom="0"
+          opacity="0.05"
+          backgroundImage="url('data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\' fill-rule=\'evenodd\'%3E%3Cpath d=\'M0 40L40 0H20L0 20M40 40V20L20 40\'/%3E%3C/g%3E%3C/svg%3E')"
+          backgroundPosition="center"
+          zIndex="0"
+        />
+        
+        {/* Decorative glowing accent */}
+        <Box
+          position="absolute"
+          top="0"
+          right="0"
+          width="40%"
+          height="40%"
+          bg="accent.500"
+          filter="blur(150px)"
+          opacity="0.08"
+          zIndex="0"
+        />
         
         <Container maxW="1200px">
           <Flex 
@@ -102,9 +137,11 @@ const Landing = () => {
                   as={RouterLink}
                   to="/demo-setup"
                   size="lg"
-                  bg="gray.800"
-                  color="primary.400"
-                  _hover={{ bg: 'gray.700' }}
+                  bg="accent.500"
+                  color="white"
+                  _hover={{ bg: 'accent.600', transform: 'translateY(-2px)' }}
+                  boxShadow="0 4px 14px 0 rgba(101, 34, 239, 0.25)"
+                  transition={{ transform: '0.2s ease', boxShadow: '0.2s ease', background: '0.2s ease' }}
                   fontSize="md"
                   px={8}
                   className="animate-pulse"
@@ -116,10 +153,12 @@ const Landing = () => {
                   to="/signup"
                   size="lg" 
                   variant="outline"
-                  borderWidth={2}
-                  _hover={{ bg: 'rgba(255,255,255,0.1)' }}
+                  borderWidth={1}
+                  borderColor="gray.600"
+                  _hover={{ bg: 'rgba(255,255,255,0.05)', borderColor: 'gray.500' }}
                   fontSize="md"
                   px={8}
+                  transition={{ transform: '0.2s ease', boxShadow: '0.2s ease', background: '0.2s ease' }}
                 >
                   Connect my Broker & Start Trading
                 </Button>
@@ -134,16 +173,32 @@ const Landing = () => {
               w="full"
             >
               <Box
-                bg="gray.800"
+                className="glass"
                 borderRadius="xl"
-                boxShadow="xl"
+                boxShadow="0 8px 32px 0 rgba(0, 0, 0, 0.37)"
                 overflow="hidden"
                 p={1}
+                border="1px solid rgba(255, 255, 255, 0.05)"
+                position="relative"
+                zIndex="1"
+                _before={{
+                  content: '""',
+                  position: 'absolute',
+                  top: '0',
+                  left: '0',
+                  right: '0',
+                  height: '1px',
+                  bgGradient: 'linear(to-r, transparent, rgba(255, 255, 255, 0.1), transparent)',
+                  zIndex: '1'
+                }}
               >
-                <Box p={4} bg="gray.850" borderRadius="lg" borderWidth="1px" borderColor="gray.700">
-                  <Text fontWeight="bold" mb={2} color="gray.100">
-                    Live Trading Demo
-                  </Text>
+                <Box p={4} borderRadius="lg" bg="rgba(0,0,0,0.2)">
+                  <Flex alignItems="center" mb={2}>
+                    <Box w="2" h="2" borderRadius="full" bg="accent.400" mr={2} />
+                    <Text fontWeight="medium" color="gray.200">
+                      Live Trading Demo
+                    </Text>
+                  </Flex>
                   <TradeCard trade={sampleTrade} />
                 </Box>
               </Box>
@@ -153,16 +208,33 @@ const Landing = () => {
       </Box>
 
       {/* How It Works Section */}
-      <Box py={16} bg="gray.900">
-        <Container maxW="1200px">
-          <Heading 
-            as="h2" 
-            textAlign="center" 
-            mb={12}
-            size="xl"
-          >
-            How It Works
-          </Heading>
+      <Box py={20} bg="gray.950" position="relative" overflow="hidden">
+        {/* Subtle pattern overlay */}
+        <Box
+          position="absolute"
+          top="0"
+          left="0"
+          right="0"
+          bottom="0"
+          opacity="0.03"
+          backgroundImage={`url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.4' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'%3E%3C/circle%3E%3Ccircle cx='13' cy='13' r='3'%3E%3C/circle%3E%3C/g%3E%3C/svg%3E")`}
+        />
+        
+        <Container maxW="1200px" position="relative" zIndex="1">
+          <Flex direction="column" align="center" mb={12}>
+            <Box mb={3} px={3} py={1} bg="gray.800" borderRadius="full">
+              <Text fontSize="sm" color="accent.300">Simple Process</Text>
+            </Box>
+            <Heading 
+              as="h2" 
+              textAlign="center" 
+              size="xl"
+              bgGradient="linear(to-r, gray.100, white)"
+              backgroundClip="text"
+            >
+              How It Works
+            </Heading>
+          </Flex>
           
           <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
             {[
@@ -186,13 +258,36 @@ const Landing = () => {
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ 
+                  duration: 0.5, 
+                  delay: index * 0.1,
+                  transform: '0.3s ease', 
+                  boxShadow: '0.3s ease', 
+                  borderColor: '0.3s ease' 
+                }}
                 viewport={{ once: true }}
-                bg="gray.800"
+                bg="gray.900"
                 p={8}
-                borderRadius="lg"
-                boxShadow="md"
+                borderRadius="xl"
+                boxShadow="0 4px 20px rgba(0,0,0,0.25)"
                 textAlign="center"
+                borderWidth="1px"
+                borderColor="gray.800"
+                position="relative"
+                _hover={{
+                  borderColor: "gray.700",
+                  transform: "translateY(-5px)",
+                  boxShadow: "0 8px 30px rgba(0,0,0,0.3)"
+                }}
+                _before={{
+                  content: '""',
+                  position: 'absolute',
+                  top: '-1px',
+                  left: '25%',
+                  right: '25%',
+                  height: '1px',
+                  bgGradient: 'linear(to-r, transparent, gray.700, transparent)',
+                }}
               >
                 <Text fontSize="4xl" mb={4}>{step.icon}</Text>
                 <Heading as="h3" size="md" mb={4}>{step.title}</Heading>
@@ -206,11 +301,44 @@ const Landing = () => {
       </Box>
 
       {/* Features Section */}
-      <Box py={16} bg="gray.800">
-        <Container maxW="1200px">
-          <Heading as="h2" textAlign="center" mb={12} size="xl">
-            Key Features
-          </Heading>
+      <Box py={20} bg="gray.900" position="relative" overflow="hidden">
+        {/* Decorative elements */}
+        <Box 
+          position="absolute" 
+          top="-10%" 
+          left="-5%" 
+          width="300px" 
+          height="300px" 
+          bg="accent.900" 
+          filter="blur(150px)" 
+          opacity="0.1" 
+        />
+        <Box 
+          position="absolute" 
+          bottom="-10%" 
+          right="-5%" 
+          width="300px" 
+          height="300px" 
+          bg="primary.900" 
+          filter="blur(150px)" 
+          opacity="0.1" 
+        />
+        
+        <Container maxW="1200px" position="relative" zIndex="1">
+          <Flex direction="column" align="center" mb={12}>
+            <Box mb={3} px={3} py={1} bg="gray.800" borderRadius="full">
+              <Text fontSize="sm" color="primary.300">What Makes Us Different</Text>
+            </Box>
+            <Heading 
+              as="h2" 
+              textAlign="center"
+              size="xl"
+              bgGradient="linear(to-r, white, gray.300)"
+              backgroundClip="text"
+            >
+              Key Features
+            </Heading>
+          </Flex>
           
           <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
             {[
@@ -227,7 +355,7 @@ const Landing = () => {
                 description: "Cap trades. Limit exposure. You're always in the drivers seat.",
               },
               {
-                title: "Bro",
+                title: "Broker Agnostic",
                 description: "Works with IBKR today -- more coming soon. Your money stays in your account, always.",
               },
             ].map((feature, index) => (
@@ -235,12 +363,20 @@ const Landing = () => {
                 key={index}
                 initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.5, transform: '0.3s ease', boxShadow: '0.3s ease', borderColor: '0.3s ease' }}
                 viewport={{ once: true }}
                 p={6}
                 bg="gray.800"
-                borderRadius="lg"
-                boxShadow="md"
+                borderRadius="xl"
+                boxShadow="0 4px 20px rgba(0,0,0,0.2)"
+                borderWidth="1px"
+                borderColor="gray.700"
+                position="relative"
+                _hover={{
+                  transform: "translateY(-5px)",
+                  boxShadow: "0 8px 30px rgba(0,0,0,0.25)",
+                  borderColor: "gray.600"
+                }}
               >
                 <Heading as="h3" size="md" mb={4}>
                   {feature.title}
@@ -254,8 +390,164 @@ const Landing = () => {
         </Container>
       </Box>
 
+      {/* Community Section */}
+      <Box py={20} bg="gray.950" position="relative" overflow="hidden">
+        {/* Subtle pattern overlay */}
+        <Box
+          position="absolute"
+          top="0"
+          left="0"
+          right="0"
+          bottom="0"
+          opacity="0.03"
+          backgroundImage={`url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.4' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'%3E%3C/circle%3E%3Ccircle cx='13' cy='13' r='3'%3E%3C/circle%3E%3C/g%3E%3C/svg%3E")`}
+        />
+        
+        {/* Decorative elements */}
+        <Box 
+          position="absolute" 
+          bottom="-10%" 
+          left="10%" 
+          width="300px" 
+          height="300px" 
+          bg="accent.700" 
+          filter="blur(150px)" 
+          opacity="0.1" 
+          zIndex="0"
+        />
+        
+        <Container maxW="1200px" position="relative" zIndex="1">
+          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={16} alignItems="center">
+            <MotionBox
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <Flex direction="column" align={{ base: "center", md: "flex-start" }}>
+                <Box mb={3} px={3} py={1} bg="gray.800" borderRadius="full" display="inline-flex" alignItems="center">
+                  <Text fontSize="lg" mr={2}>🌱</Text>
+                  <Text fontSize="sm" color="accent.300">Community Callout</Text>
+                </Box>
+                
+                <Heading 
+                  as="h2" 
+                  size="xl"
+                  mb={6}
+                  textAlign={{ base: "center", md: "left" }}
+                  bgGradient="linear(to-r, white, gray.300)"
+                  backgroundClip="text"
+                >
+                  Built by traders, for traders.
+                </Heading>
+                
+                <Text fontSize="lg" color="gray.300" mb={8} textAlign={{ base: "center", md: "left" }}>
+                  Join a platform where real investors share alpha, copy each other's plays, and grow together. 
+                  We're not Wall Street — we're the Discord generation. Let's build wealth together.
+                </Text>
+                
+                <Stack 
+                  direction={{ base: 'column', sm: 'row' }} 
+                  spacing={4}
+                  align={{ base: "center", md: "flex-start" }}
+                >
+                  <Button
+                    as="a"
+                    href="https://discord.gg/fintrade"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    size="lg"
+                    variant="outline"
+                    borderWidth={1}
+                    borderColor="gray.600"
+                    leftIcon={<Text fontSize="lg">→</Text>}
+                    _hover={{ bg: 'rgba(255,255,255,0.05)', borderColor: 'gray.500' }}
+                    fontSize="md"
+                    px={8}
+                    style={{ transition: 'all 0.2s ease' }}
+                  >
+                    Join the Community
+                  </Button>
+                  <Button
+                    as={RouterLink}
+                    to="/signup"
+                    size="lg"
+                    bg="accent.500"
+                    color="white"
+                    leftIcon={<Text fontSize="lg">→</Text>}
+                    _hover={{ bg: 'accent.600', transform: 'translateY(-2px)' }}
+                    boxShadow="0 4px 14px 0 rgba(25, 118, 210, 0.25)"
+                    fontSize="md"
+                    px={8}
+                    style={{ transition: 'all 0.2s ease' }}
+                  >
+                    Start Copying Now
+                  </Button>
+                </Stack>
+              </Flex>
+            </MotionBox>
+            
+            <MotionBox
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              display={{ base: 'none', md: 'block' }}
+            >
+              <Box
+                className="glass"
+                borderRadius="xl"
+                boxShadow="0 8px 32px 0 rgba(0, 0, 0, 0.37)"
+                overflow="hidden"
+                p={6}
+                border="1px solid rgba(255, 255, 255, 0.05)"
+                position="relative"
+                zIndex="1"
+                bg="gray.900"
+                _before={{
+                  content: '""',
+                  position: 'absolute',
+                  top: '0',
+                  left: '0',
+                  right: '0',
+                  height: '1px',
+                  bgGradient: 'linear(to-r, transparent, rgba(255, 255, 255, 0.1), transparent)',
+                  zIndex: '1'
+                }}
+              >
+                <SimpleGrid columns={2} spacing={4}>
+                  {[
+                    { count: '14,823', label: 'Community Members' },
+                    { count: '324', label: 'Active Traders' },
+                    { count: '6,482', label: 'Trades Copied' },
+                    { count: '+32%', label: 'Avg. Monthly Return' }
+                  ].map((stat, index) => (
+                    <Box 
+                      key={index} 
+                      p={4} 
+                      borderRadius="lg" 
+                      bg="gray.800" 
+                      textAlign="center"
+                      borderWidth="1px"
+                      borderColor="gray.700"
+                    >
+                      <Text fontSize="2xl" fontWeight="bold" color="accent.400" mb={1}>
+                        {stat.count}
+                      </Text>
+                      <Text fontSize="sm" color="gray.400">
+                        {stat.label}
+                      </Text>
+                    </Box>
+                  ))}
+                </SimpleGrid>
+              </Box>
+            </MotionBox>
+          </SimpleGrid>
+        </Container>
+      </Box>
+
       {/* CTA Section */}
-      <Box py={20} bg="primary.500" color="white">
+      <Box py={20} bg="accent.500" color="white">
         <Container maxW="1200px" textAlign="center">
           <Heading as="h2" size="xl" mb={6}>
             Ready to Revolutionize Your Trading?
@@ -269,10 +561,11 @@ const Landing = () => {
               to="/demo-setup"
               size="lg"
               bg="gray.800"
-              color="primary.400"
+              color="accent.400"
               _hover={{ bg: 'gray.700' }}
               fontSize="md"
               px={10}
+              style={{ transition: 'all 0.2s ease' }}
             >
               Try Free Demo
             </Button>
@@ -285,6 +578,7 @@ const Landing = () => {
               _hover={{ bg: 'rgba(255,255,255,0.1)' }}
               fontSize="md"
               px={10}
+              style={{ transition: 'all 0.2s ease' }}
             >
               Create Account
             </Button>

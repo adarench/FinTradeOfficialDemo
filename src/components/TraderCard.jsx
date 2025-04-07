@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Flex, Text, Avatar, HStack, Button, Progress, Stat, StatLabel, StatNumber, StatHelpText, useColorModeValue, useToast } from '@chakra-ui/react';
+import { Box, Flex, Text, Avatar, HStack, Button, Progress, Stat, StatLabel, StatNumber, StatHelpText, useToast } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 
 const MotionBox = motion(Box);
@@ -8,7 +8,6 @@ const TraderCard = ({ trader, onFollowToggle }) => {
   const { id, name, avatar, performance, winRate, followers, status: initialStatus } = trader;
   const [status, setStatus] = useState(initialStatus);
   const isPositive = performance > 0;
-  const bgColor = useColorModeValue('white', 'gray.800');
   const toast = useToast();
   
   const handleFollowClick = () => {
@@ -35,55 +34,109 @@ const TraderCard = ({ trader, onFollowToggle }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      bg={bgColor}
-      borderRadius="lg"
-      boxShadow="sm"
-      p={4}
+      bg="gray.800"
+      borderRadius="xl"
+      boxShadow="0 4px 20px rgba(0,0,0,0.2)"
+      p={5}
       mb={4}
       borderWidth="1px"
-      borderColor={useColorModeValue('gray.200', 'gray.700')}
-      _hover={{ boxShadow: 'md', transform: 'translateY(-2px)' }}
+      borderColor="gray.700"
+      _hover={{ 
+        boxShadow: "0 8px 30px rgba(0,0,0,0.25)", 
+        transform: "translateY(-3px)",
+        borderColor: "gray.600" 
+      }}
+      transition="all 0.2s ease"
+      position="relative"
+      overflow="hidden"
     >
+      {/* Subtle top border gradient */}
+      <Box 
+        position="absolute" 
+        top="0" 
+        left="15%" 
+        right="15%" 
+        height="1px" 
+        bgGradient={`linear(to-r, transparent, ${isPositive ? 'green.500' : 'gray.500'}, transparent)`} 
+        opacity="0.7"
+      />
+      
       <Flex justify="space-between" align="center" mb={4}>
-        <HStack>
-          <Avatar size="md" name={name} src={avatar} />
+        <HStack spacing={4}>
+          <Avatar 
+            size="md" 
+            name={name} 
+            src={avatar} 
+            borderWidth="2px" 
+            borderColor={isPositive ? 'green.500' : 'gray.600'}
+          />
           <Box>
-            <Text fontWeight="bold" fontSize="lg">{name}</Text>
-            <Text fontSize="sm" color="gray.500">{followers} followers</Text>
+            <Text fontWeight="bold" fontSize="md" color="white">{name}</Text>
+            <Text fontSize="sm" color="gray.400">{followers} followers</Text>
           </Box>
         </HStack>
         <Button 
           size="sm" 
-          colorScheme={status === 'Following' ? 'blue' : 'gray'}
-          variant={status === 'Following' ? 'solid' : 'outline'}
+          bg={status === 'Following' ? 'accent.500' : 'transparent'}
+          color={status === 'Following' ? 'white' : 'gray.300'}
+          borderWidth="1px"
+          borderColor={status === 'Following' ? 'accent.500' : 'gray.600'}
           onClick={handleFollowClick}
+          _hover={{ 
+            bg: status === 'Following' ? 'accent.600' : 'gray.700',
+            transform: 'translateY(-1px)'
+          }}
+          transition="all 0.2s ease"
+          borderRadius="md"
+          fontWeight="medium"
+          px={3}
+          py={1}
         >
           {status === 'Following' ? 'Following' : 'Follow'}
         </Button>
       </Flex>
       
-      <Flex justify="space-between" mb={4}>
+      <Flex 
+        justify="space-between" 
+        mb={4} 
+        p={3} 
+        bg="gray.850" 
+        borderRadius="md" 
+        borderWidth="1px" 
+        borderColor="gray.700"
+      >
         <Stat>
-          <StatLabel>Performance</StatLabel>
-          <StatNumber color={isPositive ? 'green.500' : 'red.500'}>
+          <StatLabel fontSize="xs" color="gray.400">Performance</StatLabel>
+          <StatNumber fontSize="md" color={isPositive ? 'green.400' : 'red.400'}>
             {isPositive ? '+' : ''}{performance}%
           </StatNumber>
-          <StatHelpText fontSize="xs">Last 30 days</StatHelpText>
+          <StatHelpText fontSize="xs" color="gray.500" mt={0}>Last 30 days</StatHelpText>
         </Stat>
         
         <Stat>
-          <StatLabel>Win Rate</StatLabel>
-          <StatNumber>{winRate}%</StatNumber>
-          <StatHelpText fontSize="xs">Successfully closed</StatHelpText>
+          <StatLabel fontSize="xs" color="gray.400">Win Rate</StatLabel>
+          <StatNumber fontSize="md" color="white">{winRate}%</StatNumber>
+          <StatHelpText fontSize="xs" color="gray.500" mt={0}>Successfully closed</StatHelpText>
         </Stat>
       </Flex>
       
       <Box>
-        <Flex justify="space-between" mb={1}>
-          <Text fontSize="sm">Win/Loss Ratio</Text>
-          <Text fontSize="sm" fontWeight="medium">{winRate}%</Text>
+        <Flex justify="space-between" mb={2} align="center">
+          <Text fontSize="xs" color="gray.400">Win/Loss Ratio</Text>
+          <Text fontSize="xs" fontWeight="medium" color="white">{winRate}%</Text>
         </Flex>
-        <Progress value={winRate} colorScheme="green" size="sm" borderRadius="full" />
+        <Box position="relative" h="4px" bg="gray.700" borderRadius="full" overflow="hidden">
+          <Box 
+            position="absolute" 
+            top="0" 
+            left="0" 
+            height="100%" 
+            width={`${winRate}%`} 
+            bg="green.500"
+            bgGradient="linear(to-r, green.500, green.400)"
+            borderRadius="full"
+          />
+        </Box>
       </Box>
     </MotionBox>
   );

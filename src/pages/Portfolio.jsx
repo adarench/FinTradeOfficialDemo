@@ -97,11 +97,11 @@ const MotionBox = motion(Box);
 
 const Portfolio = () => {
   const [timeRange, setTimeRange] = useState('all');
-  const bgColor = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const bgColor = useColorModeValue('gray.800', 'gray.800');
+  const borderColor = useColorModeValue('gray.700', 'gray.700');
   
   return (
-    <Box minH="100vh" display="flex" flexDirection="column" bg="gray.50">
+    <Box minH="100vh" display="flex" flexDirection="column" bg="gray.950">
       <Header />
       
       <Box flex="1" py={8}>
@@ -120,10 +120,10 @@ const Portfolio = () => {
               borderColor={borderColor}
             >
               <Stat>
-                <StatLabel>Total Portfolio Value</StatLabel>
-                <StatNumber>${portfolioData.totalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</StatNumber>
-                <StatHelpText>
-                  <StatArrow type="increase" />
+                <StatLabel color="gray.400">Total Portfolio Value</StatLabel>
+                <StatNumber color="white">${portfolioData.totalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</StatNumber>
+                <StatHelpText color="green.400">
+                  <StatArrow type="increase" color="green.400" />
                   {portfolioData.changePercent}% since start
                 </StatHelpText>
               </Stat>
@@ -208,12 +208,12 @@ const Portfolio = () => {
             mb={8}
           >
             <Flex justify="space-between" align="center" mb={6}>
-              <Heading size="md">Portfolio Performance</Heading>
+              <Heading size="md" color="white">Portfolio Performance</Heading>
               <HStack>
                 <Button 
                   size="sm" 
                   variant={timeRange === '1w' ? 'solid' : 'ghost'} 
-                  colorScheme="primary"
+                  colorScheme="accent"
                   onClick={() => setTimeRange('1w')}
                 >
                   1W
@@ -221,7 +221,7 @@ const Portfolio = () => {
                 <Button 
                   size="sm" 
                   variant={timeRange === '1m' ? 'solid' : 'ghost'} 
-                  colorScheme="primary"
+                  colorScheme="accent"
                   onClick={() => setTimeRange('1m')}
                 >
                   1M
@@ -229,7 +229,7 @@ const Portfolio = () => {
                 <Button 
                   size="sm" 
                   variant={timeRange === '3m' ? 'solid' : 'ghost'} 
-                  colorScheme="primary"
+                  colorScheme="accent"
                   onClick={() => setTimeRange('3m')}
                 >
                   3M
@@ -237,7 +237,7 @@ const Portfolio = () => {
                 <Button 
                   size="sm" 
                   variant={timeRange === 'all' ? 'solid' : 'ghost'} 
-                  colorScheme="primary"
+                  colorScheme="accent"
                   onClick={() => setTimeRange('all')}
                 >
                   All
@@ -251,26 +251,30 @@ const Portfolio = () => {
                   data={portfolioHistory}
                   margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
                   <XAxis 
                     dataKey="date" 
-                    tick={{ fill: '#6b7280' }}
+                    tick={{ fill: '#9ca3af' }}
                     tickFormatter={(date) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    stroke="rgba(255, 255, 255, 0.1)"
                   />
                   <YAxis 
-                    tick={{ fill: '#6b7280' }}
+                    tick={{ fill: '#9ca3af' }}
                     tickFormatter={(value) => `$${value.toLocaleString()}`}
+                    stroke="rgba(255, 255, 255, 0.1)"
                   />
                   <Tooltip 
                     formatter={(value) => [`$${value.toLocaleString()}`, 'Portfolio Value']}
                     labelFormatter={(date) => new Date(date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
-                    contentStyle={{ backgroundColor: bgColor, borderColor }}
+                    contentStyle={{ backgroundColor: bgColor, borderColor, borderRadius: '8px' }}
+                    itemStyle={{ color: 'white' }}
+                    labelStyle={{ color: 'white' }}
                   />
                   <Area 
                     type="monotone" 
                     dataKey="value" 
-                    stroke="#0080ff" 
-                    fill="#e6f7ff" 
+                    stroke="#1976d2" 
+                    fill="rgba(25, 118, 210, 0.08)" 
                     strokeWidth={2}
                   />
                 </AreaChart>
@@ -284,12 +288,23 @@ const Portfolio = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             bg={bgColor}
-            borderRadius="lg"
-            boxShadow="sm"
+            borderRadius="xl"
+            boxShadow="0 8px 32px 0 rgba(0, 0, 0, 0.37)"
             borderWidth="1px"
             borderColor={borderColor}
+            position="relative"
+            _before={{
+              content: '""',
+              position: 'absolute',
+              top: '0',
+              left: '0',
+              right: '0',
+              height: '1px',
+              bgGradient: 'linear(to-r, transparent, rgba(255, 255, 255, 0.1), transparent)',
+              zIndex: '1'
+            }}
           >
-            <Tabs variant="enclosed" colorScheme="primary">
+            <Tabs variant="enclosed" colorScheme="accent">
               <TabList px={6} pt={4}>
                 <Tab>Holdings</Tab>
                 <Tab>Trade History</Tab>
@@ -301,32 +316,50 @@ const Portfolio = () => {
                 {/* Holdings Tab */}
                 <TabPanel p={6}>
                   <Box overflowX="auto">
-                    <Table variant="simple">
+                    <Table variant="simple" colorScheme="whiteAlpha">
                       <Thead>
-                        <Tr>
-                          <Th>Symbol</Th>
-                          <Th>Shares</Th>
-                          <Th>Avg Price</Th>
-                          <Th>Current Price</Th>
-                          <Th isNumeric>Value</Th>
-                          <Th isNumeric>% of Portfolio</Th>
-                          <Th isNumeric>Unrealized P&L</Th>
+                        <Tr bg="gray.700">
+                          <Th color="gray.300" borderColor="gray.600">Symbol</Th>
+                          <Th color="gray.300" borderColor="gray.600">Shares</Th>
+                          <Th color="gray.300" borderColor="gray.600">Avg Price</Th>
+                          <Th color="gray.300" borderColor="gray.600">Current Price</Th>
+                          <Th isNumeric color="gray.300" borderColor="gray.600">Value</Th>
+                          <Th isNumeric color="gray.300" borderColor="gray.600">% of Portfolio</Th>
+                          <Th isNumeric color="gray.300" borderColor="gray.600">Unrealized P&L</Th>
                         </Tr>
                       </Thead>
                       <Tbody>
                         {portfolioData.allocations.map((asset) => (
-                          <Tr key={asset.symbol}>
-                            <Td>
-                              <Badge colorScheme={asset.symbol === 'CASH' ? 'gray' : 'primary'}>
+                          <Tr 
+                            key={asset.symbol} 
+                            bg="gray.750" 
+                            _hover={{ bg: 'gray.700' }}
+                            transition="background-color 0.2s"
+                          >
+                            <Td borderColor="gray.700">
+                              <Box
+                                display="inline-flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                borderRadius="md"
+                                py={1}
+                                px={2.5}
+                                fontSize="sm"
+                                fontWeight="bold"
+                                bg={asset.symbol === 'CASH' ? 'gray.700' : 'rgba(25, 118, 210, 0.15)'}
+                                color={asset.symbol === 'CASH' ? 'gray.300' : 'accent.400'}
+                                borderWidth="1px"
+                                borderColor={asset.symbol === 'CASH' ? 'gray.600' : 'accent.700'}
+                              >
                                 {asset.symbol}
-                              </Badge>
+                              </Box>
                             </Td>
-                            <Td>{asset.shares ?? '-'}</Td>
-                            <Td>${asset.avgPrice?.toFixed(2) ?? '-'}</Td>
-                            <Td>${asset.currentPrice?.toFixed(2) ?? '-'}</Td>
-                            <Td isNumeric>${asset.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</Td>
-                            <Td isNumeric>{asset.percent.toFixed(2)}%</Td>
-                            <Td isNumeric color={asset.unrealizedPL > 0 ? 'green.500' : asset.unrealizedPL < 0 ? 'red.500' : 'gray.500'}>
+                            <Td color="white" borderColor="gray.700">{asset.shares ?? '-'}</Td>
+                            <Td color="white" borderColor="gray.700">${asset.avgPrice?.toFixed(2) ?? '-'}</Td>
+                            <Td color="white" borderColor="gray.700">${asset.currentPrice?.toFixed(2) ?? '-'}</Td>
+                            <Td isNumeric color="white" borderColor="gray.700">${asset.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</Td>
+                            <Td isNumeric color="white" borderColor="gray.700">{asset.percent.toFixed(2)}%</Td>
+                            <Td isNumeric borderColor="gray.700" color={asset.unrealizedPL > 0 ? 'green.400' : asset.unrealizedPL < 0 ? 'red.400' : 'gray.400'}>
                               {asset.unrealizedPL !== null ? `$${asset.unrealizedPL.toFixed(2)}` : '-'}
                             </Td>
                           </Tr>
@@ -339,45 +372,79 @@ const Portfolio = () => {
                 {/* Trade History Tab */}
                 <TabPanel p={6}>
                   <Flex justify="space-between" align="center" mb={6}>
-                    <Heading size="md">Trade History</Heading>
+                    <Heading size="md" color="white">Trade History</Heading>
                     <HStack>
-                      <Select size="sm" w="150px" placeholder="All Traders">
-                        <option value="alex">Alex Morgan</option>
+                      <Select 
+                        size="sm" 
+                        w="150px" 
+                        placeholder="All Traders" 
+                        bg="gray.700" 
+                        borderColor="gray.600" 
+                        color="white" 
+                        _hover={{ borderColor: "gray.500" }}
+                      >
+                        <option value="alex" style={{backgroundColor: "#1e293b"}}>Alex Morgan</option>
                       </Select>
-                      <Select size="sm" w="120px" placeholder="All Actions">
-                        <option value="buy">Buy</option>
-                        <option value="sell">Sell</option>
+                      <Select 
+                        size="sm" 
+                        w="120px" 
+                        placeholder="All Actions" 
+                        bg="gray.700" 
+                        borderColor="gray.600" 
+                        color="white" 
+                        _hover={{ borderColor: "gray.500" }}
+                      >
+                        <option value="buy" style={{backgroundColor: "#1e293b"}}>Buy</option>
+                        <option value="sell" style={{backgroundColor: "#1e293b"}}>Sell</option>
                       </Select>
                     </HStack>
                   </Flex>
                   
                   <Box overflowX="auto">
-                    <Table variant="simple">
+                    <Table variant="simple" colorScheme="whiteAlpha">
                       <Thead>
-                        <Tr>
-                          <Th>Date</Th>
-                          <Th>Action</Th>
-                          <Th>Symbol</Th>
-                          <Th isNumeric>Price</Th>
-                          <Th isNumeric>Shares</Th>
-                          <Th isNumeric>Value</Th>
-                          <Th>Trader</Th>
+                        <Tr bg="gray.700">
+                          <Th color="gray.300" borderColor="gray.600">Date</Th>
+                          <Th color="gray.300" borderColor="gray.600">Action</Th>
+                          <Th color="gray.300" borderColor="gray.600">Symbol</Th>
+                          <Th isNumeric color="gray.300" borderColor="gray.600">Price</Th>
+                          <Th isNumeric color="gray.300" borderColor="gray.600">Shares</Th>
+                          <Th isNumeric color="gray.300" borderColor="gray.600">Value</Th>
+                          <Th color="gray.300" borderColor="gray.600">Trader</Th>
                         </Tr>
                       </Thead>
                       <Tbody>
                         {tradeHistory.map((trade) => (
-                          <Tr key={trade.id}>
-                            <Td>{new Date(trade.date).toLocaleDateString()}</Td>
-                            <Td>
-                              <Badge colorScheme={trade.action === 'BUY' ? 'green' : 'red'}>
+                          <Tr 
+                            key={trade.id} 
+                            bg="gray.750" 
+                            _hover={{ bg: 'gray.700' }}
+                            transition="background-color 0.2s"
+                          >
+                            <Td color="white" borderColor="gray.700">{new Date(trade.date).toLocaleDateString()}</Td>
+                            <Td borderColor="gray.700">
+                              <Box
+                                display="inline-flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                borderRadius="md"
+                                py={1}
+                                px={2.5}
+                                fontSize="sm"
+                                fontWeight="bold"
+                                bg={trade.action === 'BUY' ? 'rgba(21, 128, 61, 0.15)' : 'rgba(220, 38, 38, 0.15)'}
+                                color={trade.action === 'BUY' ? 'green.400' : 'red.400'}
+                                borderWidth="1px"
+                                borderColor={trade.action === 'BUY' ? 'green.700' : 'red.700'}
+                              >
                                 {trade.action}
-                              </Badge>
+                              </Box>
                             </Td>
-                            <Td>{trade.symbol}</Td>
-                            <Td isNumeric>${trade.price.toFixed(2)}</Td>
-                            <Td isNumeric>{trade.shares}</Td>
-                            <Td isNumeric>${trade.value.toFixed(2)}</Td>
-                            <Td>{trade.trader}</Td>
+                            <Td color="white" borderColor="gray.700">{trade.symbol}</Td>
+                            <Td isNumeric color="white" borderColor="gray.700">${trade.price.toFixed(2)}</Td>
+                            <Td isNumeric color="white" borderColor="gray.700">{trade.shares}</Td>
+                            <Td isNumeric color="white" borderColor="gray.700">${trade.value.toFixed(2)}</Td>
+                            <Td color="white" borderColor="gray.700">{trade.trader}</Td>
                           </Tr>
                         ))}
                       </Tbody>
@@ -389,7 +456,7 @@ const Portfolio = () => {
                 <TabPanel p={6}>
                   <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={8}>
                     <Box>
-                      <Heading size="md" mb={4}>Portfolio Allocation</Heading>
+                      <Heading size="md" mb={4} color="white">Portfolio Allocation</Heading>
                       <Box h="300px">
                         <ResponsiveContainer width="100%" height="100%">
                           <PieChart>
@@ -400,39 +467,54 @@ const Portfolio = () => {
                               cx="50%"
                               cy="50%"
                               outerRadius={80}
-                              fill="#0080ff"
+                              fill="#1976d2"
+                              stroke="rgba(255, 255, 255, 0.1)"
                               label={({ symbol, percent }) => `${symbol} ${(percent * 100).toFixed(0)}%`}
+                              labelLine={{ stroke: 'rgba(255, 255, 255, 0.2)' }}
                             >
                               {portfolioData.allocations.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={entry.symbol === 'CASH' ? '#9ca3af' : `hsl(${index * 45}, 70%, 50%)`} />
+                                <Cell 
+                                  key={`cell-${index}`} 
+                                  fill={entry.symbol === 'CASH' ? '#4b5563' : index === 0 ? '#1976d2' : index === 1 ? '#2196f3' : index === 2 ? '#42a5f5' : index === 3 ? '#64b5f6' : '#90caf9'} 
+                                />
                               ))}
                             </Pie>
-                            <Tooltip formatter={(value) => [`$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 'Value']} />
+                            <Tooltip 
+                              formatter={(value) => [`$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 'Value']} 
+                              contentStyle={{ backgroundColor: bgColor, borderColor, borderRadius: '8px' }}
+                              itemStyle={{ color: 'white' }}
+                              labelStyle={{ color: 'white' }}
+                            />
                           </PieChart>
                         </ResponsiveContainer>
                       </Box>
                     </Box>
                     
                     <Box>
-                      <Heading size="md" mb={4}>Performance by Category</Heading>
+                      <Heading size="md" mb={4} color="white">Performance by Category</Heading>
                       <Box h="300px">
                         <ResponsiveContainer width="100%" height="100%">
                           <BarChart
                             data={performanceByCategory}
                             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                           >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
-                            <YAxis tickFormatter={(value) => `${value}%`} />
-                            <Tooltip formatter={(value) => [`${value}%`, 'Allocation']} />
-                            <Bar dataKey="value" fill="#0080ff" />
+                            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
+                            <XAxis dataKey="name" tick={{ fill: '#9ca3af' }} stroke="rgba(255, 255, 255, 0.1)" />
+                            <YAxis tickFormatter={(value) => `${value}%`} tick={{ fill: '#9ca3af' }} stroke="rgba(255, 255, 255, 0.1)" />
+                            <Tooltip 
+                              formatter={(value) => [`${value}%`, 'Allocation']} 
+                              contentStyle={{ backgroundColor: bgColor, borderColor, borderRadius: '8px' }}
+                              itemStyle={{ color: 'white' }}
+                              labelStyle={{ color: 'white' }}
+                            />
+                            <Bar dataKey="value" fill="#1976d2" />
                           </BarChart>
                         </ResponsiveContainer>
                       </Box>
                     </Box>
                     
                     <Box>
-                      <Heading size="md" mb={4}>Daily P&L Changes</Heading>
+                      <Heading size="md" mb={4} color="white">Daily P&L Changes</Heading>
                       <Box h="300px">
                         <ResponsiveContainer width="100%" height="100%">
                           <LineChart
@@ -442,22 +524,27 @@ const Portfolio = () => {
                             }))}
                             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                           >
-                            <CartesianGrid strokeDasharray="3 3" />
+                            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
                             <XAxis 
                               dataKey="date" 
                               tickFormatter={(date) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                              tick={{ fill: '#9ca3af' }} 
+                              stroke="rgba(255, 255, 255, 0.1)"
                             />
-                            <YAxis tickFormatter={(value) => `${value.toFixed(1)}%`} />
+                            <YAxis tickFormatter={(value) => `${value.toFixed(1)}%`} tick={{ fill: '#9ca3af' }} stroke="rgba(255, 255, 255, 0.1)" />
                             <Tooltip 
                               formatter={(value) => [`${value.toFixed(2)}%`, 'Daily Change']}
                               labelFormatter={(date) => new Date(date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+                              contentStyle={{ backgroundColor: bgColor, borderColor, borderRadius: '8px' }}
+                              itemStyle={{ color: 'white' }}
+                              labelStyle={{ color: 'white' }}
                             />
                             <Line 
                               type="monotone" 
                               dataKey="change" 
-                              stroke="#10b981" 
+                              stroke="#22c55e" 
                               strokeWidth={2}
-                              dot={{ r: 4 }}
+                              dot={{ r: 4, fill: '#22c55e', strokeWidth: 0 }}
                             />
                           </LineChart>
                         </ResponsiveContainer>
@@ -465,7 +552,7 @@ const Portfolio = () => {
                     </Box>
                     
                     <Box>
-                      <Heading size="md" mb={4}>Trade Activity</Heading>
+                      <Heading size="md" mb={4} color="white">Trade Activity</Heading>
                       <Box h="300px">
                         <ResponsiveContainer width="100%" height="100%">
                           <BarChart
@@ -477,17 +564,22 @@ const Portfolio = () => {
                             ]}
                             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                           >
-                            <CartesianGrid strokeDasharray="3 3" />
+                            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
                             <XAxis 
                               dataKey="date" 
                               tickFormatter={(date) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                              tick={{ fill: '#9ca3af' }} 
+                              stroke="rgba(255, 255, 255, 0.1)"
                             />
-                            <YAxis />
+                            <YAxis tick={{ fill: '#9ca3af' }} stroke="rgba(255, 255, 255, 0.1)" />
                             <Tooltip 
                               formatter={(value) => [value, 'Trades']}
                               labelFormatter={(date) => new Date(date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+                              contentStyle={{ backgroundColor: bgColor, borderColor, borderRadius: '8px' }}
+                              itemStyle={{ color: 'white' }}
+                              labelStyle={{ color: 'white' }}
                             />
-                            <Bar dataKey="count" fill="#0080ff" />
+                            <Bar dataKey="count" fill="#1976d2" />
                           </BarChart>
                         </ResponsiveContainer>
                       </Box>
@@ -499,72 +591,138 @@ const Portfolio = () => {
                 <TabPanel p={6}>
                   <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
                     <Box>
-                      <Heading size="md" mb={4}>Copy Trading Settings</Heading>
-                      <VStack spacing={4} align="stretch" p={4} bg="gray.50" borderRadius="md">
+                      <Heading size="md" mb={4} color="white">Copy Trading Settings</Heading>
+                      <VStack 
+                        spacing={4} 
+                        align="stretch" 
+                        p={6} 
+                        bg="gray.750" 
+                        borderRadius="xl"
+                        borderWidth="1px"
+                        borderColor="gray.700"
+                        boxShadow="0 4px 20px rgba(0,0,0,0.2)"
+                        position="relative"
+                        _before={{
+                          content: '""',
+                          position: 'absolute',
+                          top: '0',
+                          left: '0',
+                          right: '0',
+                          height: '1px',
+                          bgGradient: 'linear(to-r, transparent, rgba(255, 255, 255, 0.1), transparent)',
+                          zIndex: '1'
+                        }}
+                      >
                         <FormControl display="flex" alignItems="center" justifyContent="space-between">
-                          <FormLabel htmlFor="auto-copy" mb={0}>
+                          <FormLabel htmlFor="auto-copy" mb={0} color="white">
                             Automatic Copy Trading
                           </FormLabel>
-                          <Switch id="auto-copy" colorScheme="primary" defaultChecked />
+                          <Switch id="auto-copy" colorScheme="accent" defaultChecked />
                         </FormControl>
                         
                         <FormControl display="flex" alignItems="center" justifyContent="space-between">
-                          <FormLabel htmlFor="trade-alerts" mb={0}>
+                          <FormLabel htmlFor="trade-alerts" mb={0} color="white">
                             Trade Alerts
                           </FormLabel>
-                          <Switch id="trade-alerts" colorScheme="primary" defaultChecked />
+                          <Switch id="trade-alerts" colorScheme="accent" defaultChecked />
                         </FormControl>
                         
                         <FormControl>
-                          <FormLabel>Maximum Position Size</FormLabel>
-                          <Select defaultValue="10">
-                            <option value="5">5% of portfolio</option>
-                            <option value="10">10% of portfolio</option>
-                            <option value="15">15% of portfolio</option>
-                            <option value="20">20% of portfolio</option>
+                          <FormLabel color="white">Maximum Position Size</FormLabel>
+                          <Select 
+                            defaultValue="10"
+                            bg="gray.700" 
+                            borderColor="gray.600" 
+                            color="white" 
+                            _hover={{ borderColor: "gray.500" }}
+                          >
+                            <option value="5" style={{backgroundColor: "#1e293b"}}>5% of portfolio</option>
+                            <option value="10" style={{backgroundColor: "#1e293b"}}>10% of portfolio</option>
+                            <option value="15" style={{backgroundColor: "#1e293b"}}>15% of portfolio</option>
+                            <option value="20" style={{backgroundColor: "#1e293b"}}>20% of portfolio</option>
                           </Select>
                         </FormControl>
                         
                         <FormControl>
-                          <FormLabel>Copy Size</FormLabel>
-                          <Select defaultValue="100">
-                            <option value="25">25% of trader's position</option>
-                            <option value="50">50% of trader's position</option>
-                            <option value="75">75% of trader's position</option>
-                            <option value="100">100% of trader's position</option>
+                          <FormLabel color="white">Copy Size</FormLabel>
+                          <Select 
+                            defaultValue="100"
+                            bg="gray.700" 
+                            borderColor="gray.600" 
+                            color="white" 
+                            _hover={{ borderColor: "gray.500" }}
+                          >
+                            <option value="25" style={{backgroundColor: "#1e293b"}}>25% of trader's position</option>
+                            <option value="50" style={{backgroundColor: "#1e293b"}}>50% of trader's position</option>
+                            <option value="75" style={{backgroundColor: "#1e293b"}}>75% of trader's position</option>
+                            <option value="100" style={{backgroundColor: "#1e293b"}}>100% of trader's position</option>
                           </Select>
                         </FormControl>
                         
-                        <Button colorScheme="primary" mt={2}>
+                        <Button 
+                          bg="accent.500"
+                          color="white"
+                          _hover={{ bg: 'accent.600', transform: 'translateY(-2px)' }}
+                          boxShadow="0 4px 14px 0 rgba(25, 118, 210, 0.25)"
+                          style={{ transition: 'all 0.2s ease' }}
+                          mt={2}
+                        >
                           Save Settings
                         </Button>
                       </VStack>
                     </Box>
                     
                     <Box>
-                      <Heading size="md" mb={4}>Account Information</Heading>
-                      <VStack spacing={4} align="stretch" p={4} bg="gray.50" borderRadius="md">
-                        <Flex justify="space-between">
-                          <Text fontWeight="medium">Account Type</Text>
+                      <Heading size="md" mb={4} color="white">Account Information</Heading>
+                      <VStack 
+                        spacing={4} 
+                        align="stretch" 
+                        p={6} 
+                        bg="gray.750" 
+                        borderRadius="xl"
+                        borderWidth="1px"
+                        borderColor="gray.700"
+                        boxShadow="0 4px 20px rgba(0,0,0,0.2)"
+                        position="relative"
+                        _before={{
+                          content: '""',
+                          position: 'absolute',
+                          top: '0',
+                          left: '0',
+                          right: '0',
+                          height: '1px',
+                          bgGradient: 'linear(to-r, transparent, rgba(255, 255, 255, 0.1), transparent)',
+                          zIndex: '1'
+                        }}
+                      >
+                        <Flex justify="space-between" borderBottom="1px" borderColor="gray.700" pb={2}>
+                          <Text fontWeight="medium" color="gray.300">Account Type</Text>
                           <Badge colorScheme="green">Demo Account</Badge>
                         </Flex>
                         
-                        <Flex justify="space-between">
-                          <Text fontWeight="medium">Account Balance</Text>
-                          <Text>${portfolioData.totalValue.toFixed(2)}</Text>
+                        <Flex justify="space-between" borderBottom="1px" borderColor="gray.700" pb={2}>
+                          <Text fontWeight="medium" color="gray.300">Account Balance</Text>
+                          <Text color="white">${portfolioData.totalValue.toFixed(2)}</Text>
                         </Flex>
                         
-                        <Flex justify="space-between">
-                          <Text fontWeight="medium">Creation Date</Text>
-                          <Text>April 4, 2025</Text>
+                        <Flex justify="space-between" borderBottom="1px" borderColor="gray.700" pb={2}>
+                          <Text fontWeight="medium" color="gray.300">Creation Date</Text>
+                          <Text color="white">April 4, 2025</Text>
                         </Flex>
                         
-                        <Flex justify="space-between">
-                          <Text fontWeight="medium">Traders Following</Text>
-                          <Text>1</Text>
+                        <Flex justify="space-between" borderBottom="1px" borderColor="gray.700" pb={2}>
+                          <Text fontWeight="medium" color="gray.300">Traders Following</Text>
+                          <Text color="white">1</Text>
                         </Flex>
                         
-                        <Button colorScheme="blue" variant="outline" mt={2}>
+                        <Button 
+                          variant="outline" 
+                          mt={2}
+                          borderColor="accent.500"
+                          color="accent.400"
+                          _hover={{ bg: 'rgba(25, 118, 210, 0.1)', borderColor: 'accent.400' }}
+                          style={{ transition: 'all 0.2s ease' }}
+                        >
                           Connect Real IBKR Account
                         </Button>
                       </VStack>

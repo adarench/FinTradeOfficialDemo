@@ -62,7 +62,7 @@ const DemoSetup = () => {
   const [selectedTrader, setSelectedTrader] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const bgColor = useColorModeValue('white', 'gray.800');
+  const bgColor = useColorModeValue('gray.800', 'gray.800');
   
   useEffect(() => {
     if (step === 1) {
@@ -101,7 +101,7 @@ const DemoSetup = () => {
   };
 
   return (
-    <Box minH="100vh" display="flex" flexDirection="column">
+    <Box minH="100vh" display="flex" flexDirection="column" bg="gray.950">
       <Header />
       
       <Box flex="1" py={8}>
@@ -110,26 +110,27 @@ const DemoSetup = () => {
             <Progress 
               value={progress} 
               size="sm" 
-              colorScheme="primary" 
+              colorScheme="accent" 
               borderRadius="full" 
               mb={4}
+              bg="gray.800"
             />
             <Flex justify="space-between">
               <Text 
                 fontWeight={step >= 1 ? "bold" : "normal"}
-                color={step >= 1 ? "primary.500" : "gray.500"}
+                color={step >= 1 ? "accent.400" : "gray.500"}
               >
                 1. Create Demo Account
               </Text>
               <Text 
                 fontWeight={step >= 2 ? "bold" : "normal"}
-                color={step >= 2 ? "primary.500" : "gray.500"}
+                color={step >= 2 ? "accent.400" : "gray.500"}
               >
                 2. Choose Trader
               </Text>
               <Text 
                 fontWeight={step >= 3 ? "bold" : "normal"}
-                color={step >= 3 ? "primary.500" : "gray.500"}
+                color={step >= 3 ? "accent.400" : "gray.500"}
               >
                 3. Start Trading
               </Text>
@@ -144,30 +145,53 @@ const DemoSetup = () => {
             >
               <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
                 <VStack spacing={6} align="flex-start">
-                  <Heading size="lg">Your Demo Account is Ready!</Heading>
-                  <Text color="gray.600">
+                  <Heading size="lg" color="white">Your Demo Account is Ready!</Heading>
+                  <Text color="gray.400">
                     We've created a demo account with $100,000 in virtual cash for you to 
                     experience copy trading without any risk.
                   </Text>
                   
-                  <Box w="full" p={6} bg={bgColor} borderRadius="lg" boxShadow="md">
-                    <Heading size="md" mb={4}>Your Demo Account Balance</Heading>
+                  <Box 
+                    w="full" 
+                    p={6} 
+                    bg={bgColor} 
+                    borderRadius="xl" 
+                    boxShadow="0 8px 32px 0 rgba(0, 0, 0, 0.37)"
+                    borderWidth="1px"
+                    borderColor="gray.700"
+                    position="relative"
+                    _before={{
+                      content: '""',
+                      position: 'absolute',
+                      top: '0',
+                      left: '0',
+                      right: '0',
+                      height: '1px',
+                      bgGradient: 'linear(to-r, transparent, rgba(255, 255, 255, 0.1), transparent)',
+                      zIndex: '1'
+                    }}
+                  >
+                    <Heading size="md" mb={4} color="white">Your Demo Account Balance</Heading>
                     <Stat>
-                      <StatLabel>Available Funds</StatLabel>
-                      <StatNumber color="primary.500">$100,000.00</StatNumber>
-                      <StatHelpText>Ready to invest</StatHelpText>
+                      <StatLabel color="gray.400">Available Funds</StatLabel>
+                      <StatNumber color="accent.400">$100,000.00</StatNumber>
+                      <StatHelpText color="gray.500">Ready to invest</StatHelpText>
                     </Stat>
                   </Box>
                   
-                  <Text color="gray.600">
+                  <Text color="gray.400">
                     Next, choose an elite trader to follow. You'll see their trades in 
                     real-time and learn their strategies.
                   </Text>
                   
                   <Button 
-                    variant="primary" 
+                    bg="accent.500"
+                    color="white"
+                    _hover={{ bg: 'accent.600', transform: 'translateY(-2px)' }}
+                    boxShadow="0 4px 14px 0 rgba(25, 118, 210, 0.25)"
                     size="lg"
                     onClick={() => setStep(2)}
+                    style={{ transition: 'all 0.2s ease' }}
                   >
                     Choose a Trader to Follow
                   </Button>
@@ -197,8 +221,8 @@ const DemoSetup = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <Heading size="lg" mb={2}>Choose a Trader to Follow</Heading>
-              <Text color="gray.600" mb={8}>
+              <Heading size="lg" mb={2} color="white">Choose a Trader to Follow</Heading>
+              <Text color="gray.400" mb={8}>
                 Select one of our top-performing traders to automatically copy their trades.
               </Text>
               
@@ -223,6 +247,8 @@ const DemoSetup = () => {
                 variant="ghost" 
                 mt={8}
                 onClick={() => setStep(1)}
+                color="gray.400"
+                _hover={{ bg: 'rgba(255,255,255,0.05)' }}
               >
                 Go Back
               </Button>
@@ -240,24 +266,44 @@ const DemoSetup = () => {
                   <Box 
                     p={1} 
                     borderRadius="full" 
-                    bg="green.100" 
-                    color="green.500"
+                    bg="rgba(21, 128, 61, 0.2)" 
+                    color="green.400"
                     px={4}
+                    py={1}
                   >
                     <Text fontWeight="bold">Almost ready!</Text>
                   </Box>
                   
-                  <Heading size="lg">Setup Complete!</Heading>
+                  <Heading size="lg" color="white">Setup Complete!</Heading>
                   
-                  <Text color="gray.600">
+                  <Text color="gray.400">
                     You've successfully set up your demo account and selected{' '}
-                    <Text as="span" fontWeight="bold">
+                    <Text as="span" fontWeight="bold" color="white">
                       {selectedTrader?.name}
                     </Text>{' '}
                     as your trader to follow.
                   </Text>
                   
-                  <Box w="full" p={6} bg={bgColor} borderRadius="lg" boxShadow="md">
+                  <Box 
+                    w="full" 
+                    p={6} 
+                    bg={bgColor} 
+                    borderRadius="xl" 
+                    boxShadow="0 8px 32px 0 rgba(0, 0, 0, 0.37)"
+                    borderWidth="1px"
+                    borderColor="gray.700"
+                    position="relative"
+                    _before={{
+                      content: '""',
+                      position: 'absolute',
+                      top: '0',
+                      left: '0',
+                      right: '0',
+                      height: '1px',
+                      bgGradient: 'linear(to-r, transparent, rgba(255, 255, 255, 0.1), transparent)',
+                      zIndex: '1'
+                    }}
+                  >
                     <HStack align="start" spacing={4}>
                       <Image 
                         src={selectedTrader?.avatar} 
@@ -265,31 +311,39 @@ const DemoSetup = () => {
                         alt="Trader Avatar" 
                         borderRadius="full"
                         boxSize="60px"
+                        borderWidth="2px" 
+                        borderColor="green.500"
                       />
                       <Box>
-                        <Heading size="md">{selectedTrader?.name}</Heading>
-                        <Text color="green.500" fontWeight="bold">
+                        <Heading size="md" color="white">{selectedTrader?.name}</Heading>
+                        <Text color="green.400" fontWeight="bold">
                           +{selectedTrader?.performance}% Performance
                         </Text>
-                        <Text fontSize="sm" color="gray.500">
+                        <Text fontSize="sm" color="gray.400">
                           {selectedTrader?.followers} followers
                         </Text>
                       </Box>
                     </HStack>
                   </Box>
                   
-                  <Text color="gray.600">
+                  <Text color="gray.400">
                     Your demo account is now configured to copy{' '}
-                    {selectedTrader?.name}'s trades automatically. Head to 
+                    <Text as="span" fontWeight="bold" color="white">
+                      {selectedTrader?.name}
+                    </Text>'s trades automatically. Head to 
                     the dashboard to see it in action!
                   </Text>
                   
                   <Button 
-                    variant="primary" 
+                    bg="accent.500"
+                    color="white"
+                    _hover={{ bg: 'accent.600', transform: 'translateY(-2px)' }}
+                    boxShadow="0 4px 14px 0 rgba(25, 118, 210, 0.25)"
                     size="lg"
                     onClick={handleComplete}
                     isLoading={loading}
                     loadingText="Setting up your dashboard..."
+                    style={{ transition: 'all 0.2s ease' }}
                   >
                     Go to Dashboard
                   </Button>
@@ -306,7 +360,7 @@ const DemoSetup = () => {
                   >
                     <Box textAlign="center">
                       <Text fontSize="8xl" mb={4}>🚀</Text>
-                      <Heading size="md" color="primary.500">Ready to Trade!</Heading>
+                      <Heading size="md" color="accent.400">Ready to Trade!</Heading>
                     </Box>
                   </MotionFlex>
                 </Flex>
@@ -316,6 +370,8 @@ const DemoSetup = () => {
                 variant="ghost" 
                 mt={8}
                 onClick={() => setStep(2)}
+                color="gray.400"
+                _hover={{ bg: 'rgba(255,255,255,0.05)' }}
               >
                 Go Back
               </Button>
