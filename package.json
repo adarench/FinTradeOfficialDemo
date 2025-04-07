@@ -1,0 +1,36 @@
+{
+  "name": "fintrade-pocv2",
+  "version": "1.0.0",
+  "description": "A modern trading platform with copy-trading capabilities",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
+  },
+  "keywords": [
+    "trading",
+    "finance",
+    "copy-trading",
+    "IBKR"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "framer-motion": "^10.18.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.18.0",
+    "recharts": "^2.15.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.24.0",
+    "eslint-plugin-react": "^7.37.5",
+    "vite": "^6.2.5"
+  }
+}
