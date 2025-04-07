@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme, ColorModeScript } from '@chakra-ui/react';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './styles/globals.css';
 
 const theme = extendTheme({
+  config: {
+    initialColorMode: 'dark',
+    useSystemColorMode: false,
+  },
   fonts: {
     heading: "'Inter', sans-serif",
     body: "'Inter', sans-serif",
@@ -41,6 +45,27 @@ const theme = extendTheme({
       800: '#1f2937',
       900: '#111827',
     },
+    gray: {
+      50: '#f9fafb',
+      100: '#f3f4f6',
+      200: '#e5e7eb',
+      300: '#d1d5db',
+      400: '#9ca3af',
+      500: '#6b7280',
+      600: '#4b5563',
+      700: '#374151',
+      800: '#1f2937',
+      900: '#111827',
+      950: '#0d1117',
+    },
+  },
+  styles: {
+    global: (props) => ({
+      body: {
+        bg: props.colorMode === 'dark' ? 'gray.900' : 'white',
+        color: props.colorMode === 'dark' ? 'white' : 'gray.800',
+      },
+    }),
   },
   components: {
     Button: {
@@ -56,22 +81,29 @@ const theme = extendTheme({
             bg: 'primary.600',
           },
         },
-        secondary: {
-          bg: 'white',
+        secondary: (props) => ({
+          bg: props.colorMode === 'dark' ? 'gray.800' : 'white',
           color: 'primary.500',
           borderWidth: '1px',
           borderColor: 'primary.500',
           _hover: {
-            bg: 'primary.50',
+            bg: props.colorMode === 'dark' ? 'gray.700' : 'primary.50',
           },
-        },
+        }),
       },
+    },
+    Card: {
+      baseStyle: (props) => ({
+        bg: props.colorMode === 'dark' ? 'gray.800' : 'white',
+        borderColor: props.colorMode === 'dark' ? 'gray.700' : 'gray.200',
+      }),
     },
   },
 });
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <ChakraProvider theme={theme}>
       <BrowserRouter>
         <App />

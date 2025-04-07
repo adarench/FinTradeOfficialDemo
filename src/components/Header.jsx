@@ -5,7 +5,7 @@ const Header = () => {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <Box as="header" position="sticky" top={0} zIndex={10} bg="white" boxShadow="sm">
+    <Box as="header" position="sticky" top={0} zIndex={10} bg="gray.900" boxShadow="sm" borderBottomWidth="1px" borderColor="gray.800">
       <Flex align="center" justify="space-between" maxW="1200px" mx="auto" p={4}>
         <RouterLink to="/">
           <Flex align="center">
@@ -31,9 +31,9 @@ const Header = () => {
       <Box 
         display={{ base: isOpen ? 'block' : 'none', md: 'none' }}
         p={4}
-        bg="white"
+        bg="gray.900"
         borderTop="1px"
-        borderColor="gray.100"
+        borderColor="gray.800"
         animate={isOpen ? 'open' : 'closed'}
       >
         <Button as={RouterLink} to="/dashboard" variant="ghost" size="sm" w="full" justifyContent="left" mb={2}>Dashboard</Button>

@@ -102,9 +102,9 @@ const Landing = () => {
                   as={RouterLink}
                   to="/demo-setup"
                   size="lg"
-                  bg="white"
-                  color="primary.500"
-                  _hover={{ bg: 'gray.100' }}
+                  bg="gray.800"
+                  color="primary.400"
+                  _hover={{ bg: 'gray.700' }}
                   fontSize="md"
                   px={8}
                   className="animate-pulse"
@@ -134,14 +134,14 @@ const Landing = () => {
               w="full"
             >
               <Box
-                bg="white"
+                bg="gray.800"
                 borderRadius="xl"
                 boxShadow="xl"
                 overflow="hidden"
                 p={1}
               >
-                <Box p={4} bg="gray.50" borderRadius="lg">
-                  <Text fontWeight="bold" mb={2} color="gray.700">
+                <Box p={4} bg="gray.850" borderRadius="lg" borderWidth="1px" borderColor="gray.700">
+                  <Text fontWeight="bold" mb={2} color="gray.100">
                     Live Trading Demo
                   </Text>
                   <TradeCard trade={sampleTrade} />
@@ -153,7 +153,7 @@ const Landing = () => {
       </Box>
 
       {/* How It Works Section */}
-      <Box py={16}>
+      <Box py={16} bg="gray.900">
         <Container maxW="1200px">
           <Heading 
             as="h2" 
@@ -188,7 +188,7 @@ const Landing = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                bg={useColorModeValue('white', 'gray.800')}
+                bg="gray.800"
                 p={8}
                 borderRadius="lg"
                 boxShadow="md"
@@ -196,7 +196,7 @@ const Landing = () => {
               >
                 <Text fontSize="4xl" mb={4}>{step.icon}</Text>
                 <Heading as="h3" size="md" mb={4}>{step.title}</Heading>
-                <Text color={useColorModeValue('gray.600', 'gray.400')}>
+                <Text color="gray.300">
                   {step.description}
                 </Text>
               </MotionBox>
@@ -206,7 +206,7 @@ const Landing = () => {
       </Box>
 
       {/* Features Section */}
-      <Box py={16} bg={useColorModeValue('gray.50', 'gray.900')}>
+      <Box py={16} bg="gray.800">
         <Container maxW="1200px">
           <Heading as="h2" textAlign="center" mb={12} size="xl">
             Key Features
@@ -227,7 +227,7 @@ const Landing = () => {
                 description: "Cap trades. Limit exposure. You're always in the drivers seat.",
               },
               {
-                title: "Broker Agnostic",
+                title: "Bro",
                 description: "Works with IBKR today -- more coming soon. Your money stays in your account, always.",
               },
             ].map((feature, index) => (
@@ -238,14 +238,14 @@ const Landing = () => {
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
                 p={6}
-                bg={useColorModeValue('white', 'gray.800')}
+                bg="gray.800"
                 borderRadius="lg"
                 boxShadow="md"
               >
                 <Heading as="h3" size="md" mb={4}>
                   {feature.title}
                 </Heading>
-                <Text color={useColorModeValue('gray.600', 'gray.400')}>
+                <Text color="gray.300">
                   {feature.description}
                 </Text>
               </MotionBox>
@@ -254,75 +254,23 @@ const Landing = () => {
         </Container>
       </Box>
 
-      {/* Community Section */}
-      <Box py={20} bg="gray.50">
-        <Container maxW="1200px" textAlign="center">
-          <Box 
-            fontSize="4xl" 
-            mb={4}
-            opacity={0.9}
-          >
-            🌱
-          </Box>
-          <Heading as="h2" size="xl" mb={4}>
-            Community Callout
-          </Heading>
-          <Heading as="h3" size="md" mb={6} fontWeight="medium" color="gray.700">
-            Built by traders, for traders.
-          </Heading>
-          <Text fontSize="xl" maxW="700px" mx="auto" mb={8} lineHeight="tall">
-            Join a platform where real investors share alpha, copy each other's plays, and grow together. 
-            We're not Wall Street — we're the Discord generation. Let's build wealth together.
-          </Text>
-          <HStack spacing={6} justify="center" wrap="wrap">
-            <Button
-              as="a"
-              href="https://discord.gg/fintrade"
-              target="_blank"
-              size="lg"
-              variant="outline"
-              colorScheme="gray"
-              fontSize="md"
-              px={8}
-              leftIcon={
-                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
-                </svg>
-              }
-            >
-              Join the Community
-            </Button>
-            <Button
-              as={RouterLink}
-              to="/signup"
-              size="lg" 
-              colorScheme="primary"
-              fontSize="md"
-              px={8}
-            >
-              Start Copying Now
-            </Button>
-          </HStack>
-        </Container>
-      </Box>
-
       {/* CTA Section */}
       <Box py={20} bg="primary.500" color="white">
         <Container maxW="1200px" textAlign="center">
           <Heading as="h2" size="xl" mb={6}>
-            Join the Movement
+            Ready to Revolutionize Your Trading?
           </Heading>
           <Text fontSize="xl" maxW="700px" mx="auto" mb={8} opacity={0.9}>
-            Join thousands of traders who are already copying the best and building wealth together.
+            Join thousands of traders who are already copying the best and seeing consistent results.
           </Text>
           <HStack spacing={6} justify="center" wrap="wrap">
             <Button
               as={RouterLink}
               to="/demo-setup"
               size="lg"
-              bg="white"
-              color="primary.500"
-              _hover={{ bg: 'gray.100' }}
+              bg="gray.800"
+              color="primary.400"
+              _hover={{ bg: 'gray.700' }}
               fontSize="md"
               px={10}
             >
