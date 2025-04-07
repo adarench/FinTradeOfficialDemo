@@ -11,7 +11,7 @@ const Footer = () => {
               <Box fontWeight="bold" fontSize="xl">FinTrade</Box>
             </Flex>
             <Text fontSize="sm" color="neutral.400">
-              Copy Elite Investors. In Real Time. On Your Own Account.
+              Built to help the next generation of investors copy confidently, trade freely, and build together.
             </Text>
           </Stack>
           
