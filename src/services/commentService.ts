@@ -78,10 +78,18 @@ export const addComment = async (
   content: string, 
   parentId: string | null = null
 ): Promise<string> => {
+  // Get current authenticated user from Firebase Auth
+  const user = auth.currentUser;
+  if (!user) throw new Error("You must be logged in to comment");
+  
+  // Get user profile data from Firestore
+  const userDoc = await getDoc(doc(db, 'users', user.uid));
+  const userData = userDoc.exists() ? userDoc.data() : {};
+  
   const newComment = {
-    userId: currentUser.id,
-    userName: currentUser.name,
-    userAvatar: currentUser.avatar,
+    userId: user.uid,
+    userName: userData.displayName || user.displayName || user.email?.split('@')[0],
+    userAvatar: userData.photoURL || user.photoURL || currentUser.avatar,
     tradeId,
     content,
     timestamp: Date.now(),

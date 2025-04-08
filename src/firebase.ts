@@ -20,7 +20,10 @@ export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const analytics = typeof window !== 'undefined' ? getAnalytics(app) : null;
 
-// Mock user for development (until we implement auth)
+// Default user avatar when no profile picture is provided
+export const DEFAULT_AVATAR = "https://randomuser.me/api/portraits/lego/1.jpg";
+
+// For development purposes, this will be replaced with actual authenticated user
 export const currentUser = {
   id: 'user123',
   name: 'Demo User',

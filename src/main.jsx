@@ -154,8 +154,10 @@ const theme = extendTheme({
   },
 });
 
-// Initialize Firebase collections with sample data
-initializeFirestore().catch(console.error);
+// Initialize Firebase collections with sample data and initialize auth
+document.addEventListener('DOMContentLoaded', () => {
+  initializeFirestore().catch(console.error);
+});
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

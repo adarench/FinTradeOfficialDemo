@@ -2,31 +2,70 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Allow read access to all documents for demo purposes
-    match /{document=**} {
+    // User profiles
+    match /users/{userId} {
+      // Allow users to read any profile
       allow read: if true;
+      // Allow users to create/update only their own profile
+      allow create, update: if request.auth != null && request.auth.uid == userId;
+      // No one can delete profiles
+      allow delete: if false;
+    }
+    
+    // Traders collection 
+    match /traders/{traderId} {
+      // Anyone can read trader profiles
+      allow read: if true;
+      // Only admins can modify trader profiles (to be implemented)
+      allow write: if false;
     }
     
     // Comments collection rules
     match /comments/{commentId} {
+      // Anyone can read comments
+      allow read: if true;
+      
+      // Only authenticated users can create comments
       allow create: if request.auth != null && 
                      request.resource.data.userId == request.auth.uid;
+      
+      // Users can only update/delete their own comments                       
       allow update, delete: if request.auth != null && 
-                             request.resource.data.userId == request.auth.uid;
+                            request.auth.uid == resource.data.userId;
     }
     
     // Discussions collection rules
     match /discussions/{discussionId} {
+      // Anyone can read discussions
+      allow read: if true;
+      
+      // Only authenticated users can create discussions
       allow create: if request.auth != null && 
-                     request.resource.data.userId == request.auth.uid;
+                    request.resource.data.userId == request.auth.uid;
+                    
+      // Users can only update/delete their own discussions
       allow update, delete: if request.auth != null && 
-                             request.resource.data.userId == request.auth.uid;
+                           request.auth.uid == resource.data.userId;
     }
     
-    // For development purposes, allow all operations
-    // Remove this rule in production
+    // Trades collection 
+    match /trades/{tradeId} {
+      // Anyone can read trades
+      allow read: if true;
+      
+      // Only authenticated users can create trades (with proper user verification)
+      allow create: if request.auth != null && 
+                    request.resource.data.userId == request.auth.uid;
+                    
+      // Users can only update/delete their own trades
+      allow update, delete: if request.auth != null && 
+                           (request.auth.uid == resource.data.userId ||
+                            request.auth.uid == resource.data.traderId);
+    }
+    
+    // Allow all reads for any other collections
     match /{document=**} {
-      allow write: if true;
+      allow read: if true;
     }
   }
 }

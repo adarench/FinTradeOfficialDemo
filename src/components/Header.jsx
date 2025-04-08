@@ -1,8 +1,26 @@
-import { Box, Flex, Button, Image, HStack, useDisclosure, useColorModeValue } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
+import { 
+  Box, 
+  Flex, 
+  Button, 
+  Image, 
+  HStack, 
+  useDisclosure, 
+  Avatar, 
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
+  IconButton
+} from '@chakra-ui/react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { logoutUser } from '../services/auth/authService';
 
 const Header = () => {
   const { isOpen, onToggle } = useDisclosure();
+  const { currentUser, userProfile } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <Box 
@@ -26,16 +44,62 @@ const Header = () => {
         <HStack spacing={4} display={{ base: 'none', md: 'flex' }}>
           <Button as={RouterLink} to="/dashboard" variant="ghost" size="sm">Dashboard</Button>
           <Button as={RouterLink} to="/portfolio" variant="ghost" size="sm">Portfolio</Button>
-          <Button 
-            as={RouterLink} 
-            to="/signup" 
-            variant="accent" 
-            size="sm"
-            _hover={{ transform: 'translateY(-1px)' }}
-            transition="all 0.2s"
-          >
-            Start Trading
-          </Button>
+          
+          {currentUser ? (
+            <Menu>
+              <MenuButton
+                as={Button}
+                rounded={'full'}
+                variant={'link'}
+                cursor={'pointer'}
+                minW={0}
+              >
+                <Avatar
+                  size={'sm'}
+                  src={userProfile?.photoURL || ''}
+                  border="2px solid"
+                  borderColor="accent.500"
+                />
+              </MenuButton>
+              <MenuList bg="gray.800" borderColor="gray.700">
+                <MenuItem as={RouterLink} to="/profile" bg="gray.800" _hover={{ bg: 'gray.700' }}>
+                  Profile
+                </MenuItem>
+                <MenuDivider borderColor="gray.700" />
+                <MenuItem 
+                  bg="gray.800" 
+                  _hover={{ bg: 'gray.700' }}
+                  onClick={async () => {
+                    await logoutUser();
+                    navigate('/');
+                  }}
+                >
+                  Logout
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          ) : (
+            <HStack spacing={2}>
+              <Button 
+                as={RouterLink} 
+                to="/login" 
+                variant="ghost" 
+                size="sm"
+              >
+                Log In
+              </Button>
+              <Button 
+                as={RouterLink} 
+                to="/register" 
+                variant="accent" 
+                size="sm"
+                _hover={{ transform: 'translateY(-1px)' }}
+                transition="all 0.2s"
+              >
+                Sign Up
+              </Button>
+            </HStack>
+          )}
         </HStack>
 
         <Box display={{ base: 'block', md: 'none' }} onClick={onToggle} cursor="pointer">
@@ -56,7 +120,31 @@ const Header = () => {
       >
         <Button as={RouterLink} to="/dashboard" variant="ghost" size="sm" w="full" justifyContent="left" mb={2}>Dashboard</Button>
         <Button as={RouterLink} to="/portfolio" variant="ghost" size="sm" w="full" justifyContent="left" mb={2}>Portfolio</Button>
-        <Button as={RouterLink} to="/signup" variant="accent" size="sm" w="full">Start Trading</Button>
+        
+        {currentUser ? (
+          <>
+            <Button as={RouterLink} to="/profile" variant="ghost" size="sm" w="full" justifyContent="left" mb={2}>Profile</Button>
+            <Button 
+              variant="ghost" 
+              colorScheme="red" 
+              size="sm" 
+              w="full" 
+              justifyContent="left" 
+              mb={2}
+              onClick={async () => {
+                await logoutUser();
+                navigate('/');
+              }}
+            >
+              Logout
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button as={RouterLink} to="/login" variant="ghost" size="sm" w="full" justifyContent="left" mb={2}>Log In</Button>
+            <Button as={RouterLink} to="/register" variant="accent" size="sm" w="full">Sign Up</Button>
+          </>
+        )}
       </Box>
     </Box>
   );
