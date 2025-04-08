@@ -1,10 +1,12 @@
 import { Box, Flex, HStack, Text, Badge, Avatar, Button, useColorModeValue } from '@chakra-ui/react';
+import { Link as RouterLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import CommentPreview from './comments/CommentPreview';
 
 const MotionBox = motion(Box);
 
 const TradeCard = ({ trade }) => {
-  const { trader, action, symbol, price, quantity, timestamp, gain } = trade;
+  const { trader, action, symbol, price, quantity, timestamp, gain, id = `trade-${Date.now()}` } = trade;
   const isPositive = gain > 0;
   
   return (
@@ -67,7 +69,16 @@ const TradeCard = ({ trade }) => {
             />
           </Box>
           <Box>
-            <Text fontWeight="medium" fontSize="sm">{trader.name}</Text>
+            <RouterLink to={`/trader/${trader.id || 'trader1'}`}>
+              <Text 
+                fontWeight="medium" 
+                fontSize="sm"
+                _hover={{ color: 'accent.400' }}
+                transition="color 0.2s"
+              >
+                {trader.name}
+              </Text>
+            </RouterLink>
             <Text fontSize="xs" color="gray.400">{trader.performance}</Text>
           </Box>
         </HStack>
@@ -107,16 +118,9 @@ const TradeCard = ({ trade }) => {
         </Flex>
       </Box>
       
-      <Flex justify="space-between">
-        <Button 
-          size="sm" 
-          variant="ghost" 
-          color="gray.400"
-          _hover={{ bg: 'gray.700', color: 'gray.200' }}
-          fontSize="xs"
-        >
-          Details
-        </Button>
+      <Flex justify="space-between" align="center">
+        <CommentPreview tradeId={id} traderId={trader.id || 'trader1'} />
+        
         <Button 
           size="sm" 
           bg="accent.500"

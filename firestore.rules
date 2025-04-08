@@ -1,0 +1,32 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow read access to all documents for demo purposes
+    match /{document=**} {
+      allow read: if true;
+    }
+    
+    // Comments collection rules
+    match /comments/{commentId} {
+      allow create: if request.auth != null && 
+                     request.resource.data.userId == request.auth.uid;
+      allow update, delete: if request.auth != null && 
+                             request.resource.data.userId == request.auth.uid;
+    }
+    
+    // Discussions collection rules
+    match /discussions/{discussionId} {
+      allow create: if request.auth != null && 
+                     request.resource.data.userId == request.auth.uid;
+      allow update, delete: if request.auth != null && 
+                             request.resource.data.userId == request.auth.uid;
+    }
+    
+    // For development purposes, allow all operations
+    // Remove this rule in production
+    match /{document=**} {
+      allow write: if true;
+    }
+  }
+}

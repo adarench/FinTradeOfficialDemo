@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { ChakraProvider, extendTheme, ColorModeScript } from '@chakra-ui/react';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './styles/globals.css';
+import { initializeFirestore } from './firebase';
 
 // Theme inspired by Railway.app's sleek dark UI
 const theme = extendTheme({
@@ -152,6 +153,9 @@ const theme = extendTheme({
     },
   },
 });
+
+// Initialize Firebase collections with sample data
+initializeFirestore().catch(console.error);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

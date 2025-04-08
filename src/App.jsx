@@ -4,6 +4,7 @@ import Signup from './pages/Signup';
 import DemoSetup from './pages/DemoSetup';
 import Dashboard from './pages/Dashboard';
 import Portfolio from './pages/Portfolio';
+import TraderProfile from './pages/TraderProfile';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/demo-setup" element={<DemoSetup />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/portfolio" element={<Portfolio />} />
+      <Route path="/trader/:traderId" element={<TraderProfile />} />
     </Routes>
   );
 }

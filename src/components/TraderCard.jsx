@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Box, Flex, Text, Avatar, HStack, Button, Progress, Stat, StatLabel, StatNumber, StatHelpText, useToast } from '@chakra-ui/react';
+import { Link as RouterLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const MotionBox = motion(Box);
@@ -63,15 +64,28 @@ const TraderCard = ({ trader, onFollowToggle }) => {
       
       <Flex justify="space-between" align="center" mb={4}>
         <HStack spacing={4}>
-          <Avatar 
-            size="md" 
-            name={name} 
-            src={avatar} 
-            borderWidth="2px" 
-            borderColor={isPositive ? 'green.500' : 'gray.600'}
-          />
+          <RouterLink to={`/trader/${id}`}>
+            <Avatar 
+              size="md" 
+              name={name} 
+              src={avatar} 
+              borderWidth="2px" 
+              borderColor={isPositive ? 'green.500' : 'gray.600'}
+              cursor="pointer"
+            />
+          </RouterLink>
           <Box>
-            <Text fontWeight="bold" fontSize="md" color="white">{name}</Text>
+            <RouterLink to={`/trader/${id}`}>
+              <Text 
+                fontWeight="bold" 
+                fontSize="md" 
+                color="white"
+                _hover={{ color: 'accent.400' }}
+                transition="color 0.2s"
+              >
+                {name}
+              </Text>
+            </RouterLink>
             <Text fontSize="sm" color="gray.400">{followers} followers</Text>
           </Box>
         </HStack>
