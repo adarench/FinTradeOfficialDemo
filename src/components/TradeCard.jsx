@@ -1,12 +1,24 @@
-import { Box, Flex, HStack, Text, Badge, Avatar, Button, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, HStack, Text, Badge, Avatar, Button, useColorModeValue, Tooltip } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import CommentPreview from './comments/CommentPreview';
 
 const MotionBox = motion(Box);
 
-const TradeCard = ({ trade }) => {
-  const { trader, action, symbol, price, quantity, timestamp, gain, id = `trade-${Date.now()}` } = trade;
+const TradeCard = ({ trade, showLivePrice = false, onCopyTrade, showCopyButton = true }) => {
+  const { 
+    trader, 
+    action, 
+    symbol, 
+    price, 
+    quantity, 
+    timestamp, 
+    gain, 
+    currentPrice, 
+    rationale,
+    tradingStyle,
+    id = `trade-${Date.now()}`
+  } = trade;
   const isPositive = gain > 0;
   
   return (
@@ -104,38 +116,78 @@ const TradeCard = ({ trade }) => {
             ${price.toFixed(2)} × {quantity}
           </Text>
         </Flex>
-        <Flex justify="space-between">
-          <Text fontSize="xs" color="gray.400">
-            {new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-          </Text>
-          <Text 
-            fontWeight="medium"
-            fontSize="sm"
-            color={isPositive ? 'green.400' : 'red.400'}
-          >
-            {isPositive ? '+' : ''}{gain.toFixed(2)}%
-          </Text>
+        <Flex justify="space-between" align="center">
+          <Tooltip label={new Date(timestamp).toLocaleString()} placement="top">
+            <Text fontSize="xs" color="gray.400">
+              {new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            </Text>
+          </Tooltip>
+          <Flex align="center">
+            {showLivePrice && currentPrice && (
+              <HStack spacing={2} mr={2}>
+                <Text fontSize="xs" color="gray.400">Current:</Text>
+                <Text fontSize="xs" fontWeight="medium" color="white">
+                  ${currentPrice.toFixed(2)}
+                  <Badge ml={1} colorScheme="gray" fontSize="2xs" variant="outline">LIVE</Badge>
+                </Text>
+              </HStack>
+            )}
+            <Text 
+              fontWeight="medium"
+              fontSize="sm"
+              color={isPositive ? 'green.400' : 'red.400'}
+            >
+              {isPositive ? '+' : ''}{gain.toFixed(2)}%
+            </Text>
+          </Flex>
         </Flex>
+        
+        {/* Trade Rationale (for bot traders) */}
+        {rationale && (
+          <Box mt={2} pt={2} borderTopWidth="1px" borderColor="gray.700">
+            <Flex align="center" mb={1}>
+              {tradingStyle && (
+                <Badge fontSize="2xs" colorScheme={
+                  tradingStyle === 'momentum' ? 'teal' :
+                  tradingStyle === 'value' ? 'blue' :
+                  tradingStyle === 'swing' ? 'purple' :
+                  tradingStyle === 'growth' ? 'orange' : 'gray'
+                } mr={2}>
+                  {tradingStyle.toUpperCase()}
+                </Badge>
+              )}
+              <Text fontSize="xs" fontStyle="italic" color="gray.400">
+                Reasoning:
+              </Text>
+            </Flex>
+            <Text fontSize="xs" color="white">
+              {rationale}
+            </Text>
+          </Box>
+        )}
       </Box>
       
       <Flex justify="space-between" align="center">
         <CommentPreview tradeId={id} traderId={trader.id || 'trader1'} />
         
-        <Button 
-          size="sm" 
-          bg="accent.500"
-          color="white"
-          _hover={{ 
-            bg: 'accent.600',
-            transform: 'translateY(-1px)',
-            boxShadow: '0 4px 12px rgba(0, 92, 187, 0.2)'
-          }}
-          style={{ transition: 'all 0.2s ease' }}
-          fontSize="xs"
-          fontWeight="medium"
-        >
-          Copy Trade
-        </Button>
+        {showCopyButton && (
+          <Button 
+            size="sm" 
+            bg="accent.500"
+            color="white"
+            _hover={{ 
+              bg: 'accent.600',
+              transform: 'translateY(-1px)',
+              boxShadow: '0 4px 12px rgba(0, 92, 187, 0.2)'
+            }}
+            style={{ transition: 'all 0.2s ease' }}
+            fontSize="xs"
+            fontWeight="medium"
+            onClick={() => onCopyTrade?.(trade)}
+          >
+            Copy Trade
+          </Button>
+        )}
       </Flex>
     </MotionBox>
   );
